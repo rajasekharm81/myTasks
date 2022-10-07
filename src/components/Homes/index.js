@@ -7,28 +7,29 @@ import './index.css'
 import Tag from '../tags'
 
 const tagsList = [
-  {id: 'Health', displayText: 'Health'},
-  {id: 'Education', displayText: 'Education'},
-  {id: 'Entertainment', displayText: 'Entertainment'},
-  {id: 'Sports', displayText: 'Sports'},
-  {id: 'Travel', displayText: 'Travel'},
-  {id: 'Other', displayText: 'Other'},
+  {optionId: 'Health', displayText: 'Health'},
+  {optionId: 'Education', displayText: 'Education'},
+  {optionId: 'Entertainment', displayText: 'Entertainment'},
+  {optionId: 'Sports', displayText: 'Sports'},
+  {optionId: 'Travel', displayText: 'Travel'},
+  {optionId: 'Other', displayText: 'Other'},
 ]
 
 class Home extends Component {
   state = {
     todoTask: '',
     todoTag: tagsList[0].displayText,
-    list: [{id: uuidv4(), task: 'jii', tag: 'Health'}],
+    list: [],
     searchTag: '',
+    filteredList: [],
   }
 
   changeSearchTag = text => {
     const {searchTag} = this.state
     if (searchTag === '' || searchTag !== text) {
-      this.setState({searchTag: text})
+      this.setState({searchTag: text}, this.updateFilteredTasks)
     } else {
-      this.setState({searchTag: ''})
+      this.setState({searchTag: ''}, this.updateFilteredTasks)
     }
   }
 
@@ -40,7 +41,8 @@ class Home extends Component {
     this.setState({todoTag: event.target.value})
   }
 
-  addTask = () => {
+  addTask = event => {
+    event.preventDefault()
     const {todoTag, todoTask} = this.state
     this.setState(prevState => ({
       list: [...prevState.list, {id: uuidv4(), task: todoTask, tag: todoTag}],
@@ -70,12 +72,44 @@ class Home extends Component {
     )
   }
 
+  updateFilteredTasks = () => {
+    const {list, searchTag} = this.state
+    if (searchTag !== '') {
+      const filteredlist = list.filter(each => each.tag.includes(searchTag))
+      this.setState({filteredList: filteredlist})
+    } else {
+      this.setState({filteredList: []})
+    }
+  }
+
+  RenderFilteredTasksList = () => {
+    const {filteredList} = this.state
+    if (filteredList.length === 0) {
+      return (
+        <div className="noTasksContainer">
+          <p>No Tasks added yet</p>
+        </div>
+      )
+    }
+    return (
+      <ul>
+        {filteredList.map(each => (
+          <li key={each.id} className="listItemContainer">
+            <p>{each.task}</p>
+            <p>{each.tag}</p>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
   render() {
     const {todoTask, todoTag, searchTag} = this.state
-    console.log(searchTag)
+    const toBeRenderItems =
+      searchTag === '' ? this.RenderTasksList : this.RenderFilteredTasksList
     return (
       <div className="HomeNameContainer">
-        <div className="leftContainer">
+        <form className="leftContainer">
           <h1>Create a task!</h1>
           <label className="label" htmlFor="task">
             Task
@@ -103,11 +137,11 @@ class Home extends Component {
           <button
             onClick={this.addTask}
             className="AddTaskButton"
-            type="button"
+            type="submit"
           >
             Add Task
           </button>
-        </div>
+        </form>
         <div className="rightContainer">
           <h1>Tags</h1>
           <ul className="tagsUl">
@@ -122,7 +156,7 @@ class Home extends Component {
             ))}
           </ul>
           <h1>Tasks</h1>
-          {this.RenderTasksList()}
+          {toBeRenderItems()}
         </div>
       </div>
     )
