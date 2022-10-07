@@ -1,0 +1,21 @@
+.listItem {
+  list-style: none;
+}
+
+.activeButton {
+  width: 8vw;
+  padding: 1vh;
+  border-radius: 15px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+.inActiveButton {
+  width: 8vw;
+  padding: 1vh;
+  border-radius: 15px;
+  background-color: #f3aa4e;
+  color: white;
+  border: 1px solid white;
+}

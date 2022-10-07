@@ -1,0 +1,62 @@
+.HomeNameContainer {
+  display: flex;
+}
+
+.leftContainer {
+  display: flex;
+  /* justify-content: center; */
+  flex-direction: column;
+  /* align-items: center; */
+  background-color: #1a171d;
+  width: 30vw;
+  height: 100vh;
+  padding: 3vw;
+}
+
+.rightContainer {
+  background-color: #131213;
+  display: flex;
+  flex-direction: column;
+  padding-left: 2vw;
+  /* align-items: center; */
+  padding-top: 5vh;
+  height: 100vh;
+  width: 70vw;
+}
+
+.label {
+  padding: 1vh;
+}
+
+.input {
+  padding: 6px;
+}
+
+.tagsUl {
+  display: flex;
+  width: 80%;
+  justify-content: space-around;
+}
+
+.listItemContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 60vw;
+  color: white;
+}
+
+.AddTaskButton {
+  margin-top: 2vh;
+  padding: 2vh;
+  align-self: center;
+  border-radius: 15px;
+}
+
+.noTasksContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 65vw;
+  height: 65vh;
+  color: white;
+}
